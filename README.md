@@ -1,9 +1,7 @@
 <!-- prettier-ignore -->
 <div align="center">
-  <h1>KARBOS AI</h1>
-  <p><strong>AI-Powered Coal Petrographic Analysis Copilot</strong></p>
-  <p>Segmentation of coal macerals using a DA-VIT Vision Transformer</p>
-  <br />
+  <h1>KARBOS AI: AI-Powered Coal Petrographic Analysis Copilot</h1>
+  <img src="./banner.png" alt="Karbos AI Banner" width="100%" />
 
   [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/downloads/)
   [![Streamlit 1.28+](https://img.shields.io/badge/Streamlit-1.28%2B-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io/)
@@ -12,13 +10,11 @@
   [![Model Repo](https://img.shields.io/badge/Model%20Repo-GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/Nasor2/coal-maceral-segmentation)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
-  <br />
 
   <a href="https://karbos-ai.streamlit.app/">🔗 Live Demo</a> · <a href="#quick-start">Quick Start</a> · <a href="#key-features">Features</a> · <a href="#testing">Testing</a> · <a href="#references">References</a>
 
-  <br /><br />
 
-  <img src="./banner.png" alt="Karbos AI Banner" width="100%" />
+
 </div>
 
 ---
