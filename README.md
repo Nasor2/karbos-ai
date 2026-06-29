@@ -1,15 +1,28 @@
 <!-- prettier-ignore -->
 <div align="center">
+  <h1>KARBOS AI: AI-Powered Coal Petrographic Analysis Copilot</h1>
   <img src="./banner.png" alt="Karbos AI Banner" width="100%" />
-  <h1>KARBOS AI</h1>
-  <p><strong>AI-Powered Coal Petrographic Analysis Copilot</strong></p>
   <p>Segmentation of coal macerals using a DA-VIT Vision Transformer</p>
 
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+" /></a>
-  <a href="https://streamlit.io/"><img src="https://img.shields.io/badge/Streamlit-1.28%2B-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit 1.28+" /></a>
-  <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch 2.0+" /></a>
-  <a href="https://arxiv.org/abs/2506.12712"><img src="https://img.shields.io/badge/Paper-arXiv-2506.12712-B31B1B?style=flat-square&logo=arxiv&logoColor=white" alt="arXiv 2506.12712" /></a>
-  <a href="https://github.com/Nasor2/coal-maceral-segmentation"><img src="https://img.shields.io/badge/Model-Repo-GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="Model Repository" /></a>
+  <a href="https://www.python.org/downloads/">
+    <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+" />
+  </a>
+
+  <a href="https://streamlit.io/">
+    <img src="https://img.shields.io/badge/Streamlit-1.28%2B-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit 1.28+" />
+  </a>
+
+  <a href="https://pytorch.org/">
+    <img src="https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch 2.0+" />
+  </a>
+
+  <a href="https://arxiv.org/abs/2506.12712">
+    <img src="https://img.shields.io/badge/arXiv-2506.12712-B31B1B?style=flat-square&logo=arxiv&logoColor=white" alt="arXiv 2506.12712" />
+  </a>
+
+  <a href="https://github.com/Nasor2/coal-maceral-segmentation">
+    <img src="https://img.shields.io/badge/Model%20Repo-GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="Model Repository" />
+  </a>
 
   <br /><br />
 
