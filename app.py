@@ -6,6 +6,7 @@ Soporte multi-imagen con gráficos Plotly y vista agregada.
 
 import os
 import urllib.request
+from pathlib import Path
 
 import pandas as pd
 import plotly.express as px
@@ -39,6 +40,21 @@ from metrics import (
     compute_quality_metrics,
     estimate_proximate,
 )
+
+DEMO_DIR = Path(__file__).parent / "demo_images"
+
+
+def create_thumbnail(orig_img: Image.Image, mask_img: Image.Image) -> Image.Image:
+    """Create a side-by-side 400x200 thumbnail (original left, mask right)."""
+    thumb = orig_img.copy()
+    thumb.thumbnail((200, 200))
+    mask_thumb = mask_img.copy()
+    mask_thumb.thumbnail((200, 200))
+    combined = Image.new("RGB", (400, 200))
+    combined.paste(thumb, (0, 0))
+    combined.paste(mask_thumb, (200, 0))
+    return combined
+
 
 # --- Configuración de Página ---
 st.set_page_config(
@@ -93,6 +109,8 @@ if "results" not in st.session_state:
     st.session_state.results = []
 if "show_all_images" not in st.session_state:
     st.session_state.show_all_images = False
+if "demo_loaded" not in st.session_state:
+    st.session_state.demo_loaded = False
 
 
 # --- Limpiar resultados si se cambian los archivos (ANTES de renderizar) ---
@@ -113,6 +131,54 @@ with col_left:
         help="Formatos: TIFF, PNG, JPEG. Suba múltiples imágenes del mismo briquete "
         "para estadísticas más representativas.",
     )
+
+    if st.button("Cargar imágenes de demostración", use_container_width=True):
+        if not model_loaded:
+            st.error("El modelo no está disponible. No se pueden cargar demostraciones.")
+        else:
+            demo_files = sorted(DEMO_DIR.glob("*.jpg"))[:6]
+            if not demo_files:
+                st.warning("No hay imágenes de demostración disponibles.")
+            else:
+                st.session_state.results = []
+                st.session_state.show_all_images = False
+                progress = st.progress(0, text="Procesando imágenes de demostración...")
+                for i, demo_path in enumerate(demo_files):
+                    progress.progress(
+                        (i + 1) / len(demo_files),
+                        text=f"Procesando {demo_path.name} ({i + 1}/{len(demo_files)})...",
+                    )
+                    try:
+                        img = Image.open(demo_path).convert("RGB")
+                        tensor, orig_size, orig_img = preprocess(img)
+                        mask, confidence = predict(model, tensor)
+                        composition = compute_composition(mask)
+                        metrics = compute_quality_metrics(composition)
+                        stats = confidence_statistics(confidence)
+                        mask_pil = decode_mask(mask).resize(orig_size, Image.NEAREST)
+                        combined = create_thumbnail(orig_img, mask_pil)
+                        overlay = Image.blend(orig_img, mask_pil, 50 / 100)
+
+                        st.session_state.results.append(
+                            {
+                                "name": demo_path.name,
+                                "composition": composition,
+                                "metrics": metrics,
+                                "confidence_stats": stats,
+                                "orig_size": orig_size,
+                                "orig_img": orig_img,
+                                "mask_pil": mask_pil,
+                                "overlay": overlay,
+                                "combined_thumb": combined,
+                                "_last_transparency": 50,
+                            }
+                        )
+                    except Exception as e:
+                        st.error(f"Error procesando {demo_path.name}: {e}")
+                progress.empty()
+                st.session_state.demo_loaded = True
+                st.success(f"✅ {len(demo_files)} imagen(es) de demostración procesada(s).")
+                st.rerun()
 
     transparency = st.slider("Transparencia de máscara", 0, 100, 50)
 
@@ -140,16 +206,20 @@ if uploaded_files:
     st.session_state.results = [
         r for r in st.session_state.results if r["name"] in current_names
     ]
-else:
+    st.session_state.demo_loaded = False
+elif not st.session_state.demo_loaded:
     st.session_state.results = []
     st.session_state.show_all_images = False
 
 # --- COLUMNA DERECHA: Resultados ---
 with col_right:
-    if uploaded_files and model_loaded:
-        # --- Procesar imágenes nuevas ---
-        existing_names = {r["name"] for r in st.session_state.results}
-        new_files = [f for f in uploaded_files if f.name not in existing_names]
+    if (uploaded_files or st.session_state.demo_loaded) and model_loaded:
+        # --- Procesar imágenes nuevas (solo si hay uploaded_files) ---
+        if uploaded_files:
+            existing_names = {r["name"] for r in st.session_state.results}
+            new_files = [f for f in uploaded_files if f.name not in existing_names]
+        else:
+            new_files = []
 
         if new_files:
             progress = st.progress(0, text="Procesando imágenes...")
@@ -165,17 +235,7 @@ with col_right:
                     metrics = compute_quality_metrics(composition)
                     stats = confidence_statistics(confidence)
                     mask_pil = decode_mask(mask).resize(orig_size, Image.NEAREST)
-
-                    # Thumbnail combinado (original + máscara) — preservar aspect ratio
-                    thumb = orig_img.copy()
-                    thumb.thumbnail((200, 200))
-                    mask_thumb = mask_pil.copy()
-                    mask_thumb.thumbnail((200, 200))
-                    combined = Image.new("RGB", (400, 200))
-                    combined.paste(thumb, (0, 0))
-                    combined.paste(mask_thumb, (200, 0))
-
-                    # Overlay
+                    combined = create_thumbnail(orig_img, mask_pil)
                     overlay = Image.blend(orig_img, mask_pil, transparency / 100)
 
                     st.session_state.results.append(
