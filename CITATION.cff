@@ -1,0 +1,104 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it using the metadata from this
+  file. The preferred citation is the DA-VIT paper below.
+title: "Karbos AI: AI-Powered Coal Petrographic Analysis Copilot"
+abstract: >-
+  AI-powered copilot for coal petrographic analysis. Uses a DA-VIT
+  (Dilation-based Attention Vision Transformer) model to automatically
+  segment coal macerals from polarized light microscopy images,
+  providing quantitative composition analysis following ASTM D2799
+  and ISO 7404-3 standards.
+type: software
+license: MIT
+repository-code: "https://github.com/Nasor2/karbos-ai"
+url: "https://karbos-ai.streamlit.app/"
+date-released: "2026-06-28"
+keywords:
+  - coal petrography
+  - maceral segmentation
+  - DA-VIT
+  - semantic segmentation
+  - deep learning
+  - vision transformer
+  - ASTM D2799
+  - ISO 7404-3
+authors:
+  - family-names: Peña Ortega
+    given-names: Samuel Nissi
+preferred-citation:
+  type: article
+  title: >-
+    Combining Self-attention and Dilation Convolutional for Semantic
+    Segmentation of Coal Maceral Groups
+  authors:
+    - family-names: Xi
+      given-names: Zhenghao
+    - family-names: Lv
+      given-names: Zhengnan
+    - family-names: Zheng
+      given-names: Yang
+    - family-names: Liu
+      given-names: Xiang
+    - family-names: Yu
+      given-names: Zhuang
+    - family-names: Chen
+      given-names: Junran
+    - family-names: Hu
+      given-names: Jing
+    - family-names: Liu
+      given-names: Yaqi
+  journal: "arXiv preprint"
+  repository-code: "https://github.com/Nasor2/coal-maceral-segmentation"
+  identifiers:
+    - type: doi
+      value: "10.48550/arXiv.2506.12712"
+      description: "arXiv paper DOI"
+  year: 2025
+  date-released: "2025-06-15"
+references:
+  - type: data
+    title: "Coal macerals"
+    authors:
+      - family-names: Xu
+        given-names: Na
+      - family-names: Wang
+        given-names: Qingfeng
+      - family-names: Li
+        given-names: Pengfei
+      - family-names: Kong
+        given-names: Jiapei
+      - family-names: Li
+        given-names: Qing
+      - family-names: Engle
+        given-names: Mark
+      - family-names: Zhu
+        given-names: Wei
+    year: 2024
+    publisher:
+      name: "Mendeley Data"
+    version: "V1"
+    identifiers:
+      - type: doi
+        value: "10.17632/ds6vk7m3m7.1"
+        description: "Mendeley Data DOI"
+  - type: software
+    title: "coal-maceral-segmentation"
+    abstract: "DA-VIT reproduction for coal maceral segmentation"
+    authors:
+      - family-names: Peña Ortega
+        given-names: Samuel Nissi
+    repository-code: "https://github.com/Nasor2/coal-maceral-segmentation"
+    year: 2026
+  - type: standard
+    title: "Standard Practice for Petrographic Analysis of Coal"
+    abbreviation: "ASTM D2799"
+    authors:
+      - name: "ASTM International"
+    year: 2024
+  - type: standard
+    title: "Coal petrographic analysis — Part 3: Method of determining maceral group composition"
+    abbreviation: "ISO 7404-3"
+    authors:
+      - name: "International Organization for Standardization"
+    year: 2021
