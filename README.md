@@ -177,12 +177,26 @@ The test suite includes **51 tests** covering configuration constants, DA-VIT ar
 If you use this work in your research, please cite:
 
 ```bibtex
-@software{karbos_ai_2026,
-  title  = {Karbos AI: AI-Powered Coal Petrographic Analysis Copilot},
-  author = {Karbos AI Team},
-  year   = {2026},
-  url    = {https://github.com/Nasor2/karbos-ai},
-  note   = {Early-stage prototype using DA-VIT for maceral segmentation}
+@software{pena_ortega_2026,
+  author    = {Peña Ortega, Samuel Nissi},
+  title     = {Karbos AI: AI-Powered Coal Petrographic Analysis Copilot},
+  year      = {2026},
+  url       = {https://github.com/Nasor2/karbos-ai},
+  license   = {MIT}
+}
+```
+
+The model architecture is based on the DA-VIT paper. Please also cite:
+
+```bibtex
+@article{xi2025davit,
+  title   = {Combining Self-attention and Dilation Convolutional for
+             Semantic Segmentation of Coal Maceral Groups},
+  author  = {Xi, Zhenghao and Lv, Zhengnan and Zheng, Yang and
+             Liu, Xiang and Yu, Zhuang and Chen, Junran and
+             Hu, Jing and Liu, Yaqi},
+  journal = {arXiv preprint arXiv:2506.12712},
+  year    = {2025}
 }
 ```
 
