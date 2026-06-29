@@ -1,0 +1,32 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Model weights (auto-downloaded on first run)
+best_mIoU.pth
+
+# Documentation (internal, not for repo)
+MEMORY.md
+plan-de-negocio/
+dataset/
+
+# Agent/Skills config
+.agents/
+.opencode/
+skills-lock.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit secrets (local only)
+.streamlit/secrets.toml
