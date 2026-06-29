@@ -123,6 +123,9 @@ streamlit run app.py
 
 The app will open in your browser at `http://localhost:8501`. Upload coal microscopy images and view the analysis results.
 
+> [!TIP]
+> No microscopy images? Click **"Cargar imágenes de demostración"** to run the analysis on 6 sample images from the dataset.
+
 > [!NOTE]
 > Inference runs on CPU by default. Processing time is approximately 15–30 seconds per image depending on your hardware.
 
@@ -140,6 +143,7 @@ karbos-ai/
 ├── requirements.txt    # Dependencies (PyTorch CPU, Streamlit, Plotly)
 ├── pyproject.toml      # Python project config (ruff, pytest)
 ├── banner.png          # Project banner image
+├── demo_images/        # Sample images for demonstration
 ├── .streamlit/
 │   └── config.toml     # Dark industrial theme configuration
 └── tests/
