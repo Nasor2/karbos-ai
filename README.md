@@ -10,6 +10,7 @@
   [![PyTorch 2.0+](https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org/)
   [![arXiv](https://img.shields.io/badge/arXiv-2506.12712-B31B1B?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2506.12712)
   [![Model Repo](https://img.shields.io/badge/Model%20Repo-GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/Nasor2/coal-maceral-segmentation)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
   <br />
 
