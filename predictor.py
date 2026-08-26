@@ -1,15 +1,14 @@
-"""Prediction wrapper - simplified interface for model inference.
+"""Prediction wrapper - ONNX-based inference for model predictions.
 
 This module provides a high-level interface for coal maceral segmentation
-without exposing the internal model architecture or processing details.
+using ONNX Runtime for inference. No PyTorch dependency required.
 """
 
 import numpy as np
-import torch
-import torch.nn.functional as F
 from PIL import Image
+from scipy.ndimage import zoom
 
-from config import CLASS_COLORS, CLASS_NAMES, IMG_SIZE, MEAN, STD
+from config import CLASS_COLORS, CLASS_NAMES, IMG_SIZE
 
 # --- Confidence Thresholds (for UI display) ---
 CONFIDENCE_THRESHOLDS = {
@@ -17,6 +16,10 @@ CONFIDENCE_THRESHOLDS = {
     "medium": 0.75,
     "low": 0.0,
 }
+
+# --- ImageNet Normalization ---
+MEAN = np.array([123.675, 116.28, 103.53], dtype=np.float32).reshape(3, 1, 1)
+STD = np.array([58.395, 57.12, 57.375], dtype=np.float32).reshape(3, 1, 1)
 
 
 def preprocess(image_input, img_size: int = IMG_SIZE):
@@ -27,35 +30,53 @@ def preprocess(image_input, img_size: int = IMG_SIZE):
         img_size: Resolution size (default 512).
 
     Returns:
-        Tuple of (tensor [1,3,H,W], original size (W,H), original PIL Image).
+        Tuple of (numpy array [1,3,H,W], original size (W,H), original PIL Image).
     """
     if isinstance(image_input, Image.Image):
         img = image_input.convert("RGB")
     else:
         img = Image.open(image_input).convert("RGB")
-    original_size = img.size
+    original_size = img.size  # (W, H)
     img_resized = img.resize((img_size, img_size), Image.BILINEAR)
-    tensor = torch.from_numpy(np.array(img_resized)).permute(2, 0, 1).float()
+    tensor = np.array(img_resized, dtype=np.float32).transpose(2, 0, 1)  # CHW
     tensor = (tensor - MEAN) / STD
-    return tensor.unsqueeze(0), original_size, img
+    return tensor[np.newaxis, ...], original_size, img  # BCHW
 
 
-@torch.no_grad()
-def predict(model, tensor):
+def predict(session, tensor, original_size):
     """Run inference and return class mask + confidence.
 
     Args:
-        model: Loaded model.
-        tensor: Preprocessed tensor [1, 3, H, W].
+        session: ONNX Runtime InferenceSession.
+        tensor: Preprocessed numpy array [1, 3, H, W].
+        original_size: Original image size (W, H).
 
     Returns:
         Tuple of (class mask [H, W], confidence map [H, W]).
     """
-    device = next(model.parameters()).device
-    logits = model(tensor.to(device))
-    probs = F.softmax(logits, dim=1)
-    mask = logits.argmax(dim=1).squeeze(0).cpu().numpy()
-    confidence = probs.max(dim=1)[0].squeeze(0).cpu().numpy()
+    # Run ONNX inference
+    input_name = session.get_inputs()[0].name
+    logits = session.run(None, {input_name: tensor})[0]  # [1, 4, 64, 64]
+
+    # Squeeze batch dimension: [4, 64, 64]
+    logits_2d = logits.squeeze(0)
+
+    # Resize to original size using scipy
+    orig_h, orig_w = original_size[1], original_size[0]
+    scale_h = orig_h / logits_2d.shape[1]
+    scale_w = orig_w / logits_2d.shape[2]
+    logits_resized = zoom(logits_2d, (1, scale_h, scale_w), order=1)
+
+    # Get class mask (argmax)
+    mask = logits_resized.argmax(axis=0).astype(np.int32)
+
+    # Get confidence (softmax then max)
+    # Subtract max for numerical stability
+    logits_shifted = logits_resized - logits_resized.max(axis=0, keepdims=True)
+    exp_logits = np.exp(logits_shifted)
+    probs = exp_logits / exp_logits.sum(axis=0, keepdims=True)
+    confidence = probs.max(axis=0)
+
     return mask, confidence
 
 
