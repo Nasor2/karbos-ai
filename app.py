@@ -131,7 +131,7 @@ with col_left:
                     try:
                         img = Image.open(demo_path).convert("RGB")
                         tensor, orig_size, orig_img = preprocess(img)
-                        mask, confidence = predict(model, tensor)
+                        mask, confidence = predict(model, tensor, orig_size)
                         composition = compute_composition(mask)
                         metrics = compute_quality_metrics(composition)
                         stats = confidence_statistics(confidence)
@@ -210,7 +210,7 @@ with col_right:
                 )
                 try:
                     tensor, orig_size, orig_img = preprocess(file)
-                    mask, confidence = predict(model, tensor)
+                    mask, confidence = predict(model, tensor, orig_size)
                     composition = compute_composition(mask)
                     metrics = compute_quality_metrics(composition)
                     stats = confidence_statistics(confidence)
