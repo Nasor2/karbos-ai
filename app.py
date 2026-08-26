@@ -16,17 +16,15 @@ from PIL import Image
 
 from config import (
     ASSUMED_ASH_PCT,
-    CHECKPOINT_PATH,
-    CHECKPOINT_URL,
     CLASS_NAMES,
     CLASSIFICATION_COLORS,
-    CONFIDENCE_THRESHOLDS,
     DEVICE,
     MACERAL_COLORS,
     SUPPORTED_EXTENSIONS,
 )
-from model_loader import load_model
+from model_loader import CHECKPOINT_PATH, CHECKPOINT_URL, load_model
 from predictor import (
+    CONFIDENCE_THRESHOLDS,
     compute_composition,
     confidence_statistics,
     decode_mask,

@@ -11,6 +11,13 @@ from PIL import Image
 
 from config import CLASS_COLORS, CLASS_NAMES, IMG_SIZE, MEAN, STD
 
+# --- Confidence Thresholds (for UI display) ---
+CONFIDENCE_THRESHOLDS = {
+    "high": 0.90,
+    "medium": 0.75,
+    "low": 0.0,
+}
+
 
 def preprocess(image_input, img_size: int = IMG_SIZE):
     """Preprocess an image for inference.
@@ -94,8 +101,8 @@ def confidence_statistics(confidence: np.ndarray) -> dict:
     Returns:
         Dictionary with mean, low_pct, high_pct.
     """
-    high = 0.90
-    medium = 0.75
+    high = CONFIDENCE_THRESHOLDS["high"]
+    medium = CONFIDENCE_THRESHOLDS["medium"]
     return {
         "mean": round(float(confidence.mean()), 3),
         "low_pct": round(float((confidence < medium).sum() / confidence.size * 100), 1),
