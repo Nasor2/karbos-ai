@@ -25,11 +25,11 @@ from config import (
     MACERAL_COLORS,
     SUPPORTED_EXTENSIONS,
 )
-from inference import (
+from model_loader import load_model
+from predictor import (
     compute_composition,
     confidence_statistics,
     decode_mask,
-    load_model,
     predict,
     preprocess,
 )
