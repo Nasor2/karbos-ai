@@ -4,8 +4,6 @@ Interfaz Streamlit para segmentación de macerales con DA-VIT.
 Soporte multi-imagen con gráficos Plotly y vista agregada.
 """
 
-import os
-import urllib.request
 from pathlib import Path
 
 import pandas as pd
@@ -22,7 +20,7 @@ from config import (
     MACERAL_COLORS,
     SUPPORTED_EXTENSIONS,
 )
-from model_loader import CHECKPOINT_PATH, CHECKPOINT_URL, load_model
+from model_loader import CHECKPOINT_PATH, load_model
 from predictor import (
     CONFIDENCE_THRESHOLDS,
     compute_composition,
@@ -70,21 +68,6 @@ st.markdown(
 ---
 """
 )
-
-
-# --- Descargar modelo si no existe ---
-def _ensure_checkpoint():
-    if os.path.exists(CHECKPOINT_PATH):
-        return
-    try:
-        with st.spinner("Descargando modelo DA-VIT (~50 MB)..."):
-            urllib.request.urlretrieve(CHECKPOINT_URL, CHECKPOINT_PATH)
-    except Exception as e:
-        st.error(f"Error descargando modelo: {e}")
-        st.info("Descargue manualmente el checkpoint y colóquelo en el directorio del proyecto.")
-
-
-_ensure_checkpoint()
 
 
 # --- Cargar Modelo (cacheado como recurso global) ---
