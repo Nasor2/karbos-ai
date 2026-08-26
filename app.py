@@ -116,7 +116,7 @@ with col_left:
         if not model_loaded:
             st.error("El modelo no está disponible. No se pueden cargar demostraciones.")
         else:
-            demo_files = sorted(DEMO_DIR.glob("*.jpg"))[:6]
+            demo_files = sorted(DEMO_DIR.glob("*.jpg"))
             if not demo_files:
                 st.warning("No hay imágenes de demostración disponibles.")
             else:
