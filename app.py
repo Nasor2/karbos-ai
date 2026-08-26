@@ -16,7 +16,6 @@ from config import (
     ASSUMED_ASH_PCT,
     CLASS_NAMES,
     CLASSIFICATION_COLORS,
-    DEVICE,
     MACERAL_COLORS,
     SUPPORTED_EXTENSIONS,
 )
@@ -73,7 +72,7 @@ st.markdown(
 # --- Cargar Modelo (cacheado como recurso global) ---
 @st.cache_resource(show_spinner="Cargando modelo DA-VIT...")
 def _load_model():
-    return load_model(CHECKPOINT_PATH, DEVICE)
+    return load_model(CHECKPOINT_PATH)
 
 
 try:
@@ -82,7 +81,7 @@ try:
 except Exception as e:
     model_loaded = False
     st.error(f"Error al cargar el modelo: {e}")
-    st.info("Asegúrese de que el archivo `best_mIoU.pth` esté en el directorio del proyecto.")
+    st.info("Asegúrese de que el archivo `best_mIoU.onnx` esté en el directorio del proyecto.")
 
 
 # --- Inicializar session_state ---

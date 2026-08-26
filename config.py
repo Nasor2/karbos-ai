@@ -5,7 +5,6 @@ Model architecture and training details are proprietary.
 """
 
 import numpy as np
-import torch
 
 # --- Class Names and Colors ---
 CLASS_NAMES = ["Vitrinita", "Inertinita", "Liptinita", "Fondo"]
@@ -19,14 +18,9 @@ CLASS_COLORS = np.array(
     dtype=np.uint8,
 )
 
-# --- Normalization (ImageNet) ---
-MEAN = torch.tensor([123.675, 116.28, 103.53]).view(3, 1, 1)
-STD = torch.tensor([58.395, 57.12, 57.375]).view(3, 1, 1)
-
 # --- Model Configuration ---
 IMG_SIZE = 512
 NUM_CLASSES = 4
-DEVICE = "cpu"
 
 # --- Supported Formats ---
 SUPPORTED_EXTENSIONS = {"tiff", "tif", "png", "jpg", "jpeg"}

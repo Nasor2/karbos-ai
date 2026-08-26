@@ -1,30 +1,22 @@
-"""Model loader - loads pre-trained model without exposing architecture.
+"""Model loader - loads ONNX model for inference.
 
 This module provides a simplified interface to load the pre-trained
-coal maceral segmentation model. The model architecture is based on
-the DA-VIT paper (arXiv:2506.12712).
+coal maceral segmentation model in ONNX format.
 """
 
-import torch
+import onnxruntime as ort
 
-CHECKPOINT_PATH = "best_mIoU.pth"
+CHECKPOINT_PATH = "best_mIoU.onnx"
 
 
-def load_model(checkpoint_path: str = CHECKPOINT_PATH, device: str = "cpu"):
-    """Load pre-trained model from checkpoint.
+def load_model(model_path: str = CHECKPOINT_PATH):
+    """Load ONNX model for inference.
 
     Args:
-        checkpoint_path: Path to the .pth checkpoint file.
-        device: Device to load the model on ('cpu' or 'cuda').
+        model_path: Path to the .onnx model file.
 
     Returns:
-        Loaded model in evaluation mode.
+        ONNX Runtime InferenceSession.
     """
-    # Lazy import to avoid loading architecture at module level
-    from model import DAViTModel
-
-    model = DAViTModel("tiny", num_classes=4)
-    checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
-    model.load_state_dict(checkpoint["state_dict"])
-    model.to(device).eval()
-    return model
+    session = ort.InferenceSession(model_path)
+    return session
