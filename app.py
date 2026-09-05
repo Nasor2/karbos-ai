@@ -19,7 +19,7 @@ from config import (
     MACERAL_COLORS,
     SUPPORTED_EXTENSIONS,
 )
-from model_loader import CHECKPOINT_PATH, load_model
+from model_loader import load_model
 from predictor import (
     CONFIDENCE_THRESHOLDS,
     compute_composition,
@@ -72,7 +72,7 @@ st.markdown(
 # --- Cargar Modelo (cacheado como recurso global) ---
 @st.cache_resource(show_spinner="Cargando modelo DA-VIT...")
 def _load_model():
-    return load_model(CHECKPOINT_PATH)
+    return load_model()
 
 
 try:

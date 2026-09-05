@@ -27,3 +27,11 @@ Thumbs.db
 
 # Streamlit secrets (local only)
 .streamlit/secrets.toml
+
+# Models (PROTECTED - never commit)
+best_mIoU.onnx
+best_mIoU.onnx.data
+best_mIoU.onnx.enc
+*.pth
+*.pt
+*.onnx
